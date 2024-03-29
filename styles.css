@@ -1,0 +1,11 @@
+.library-app {
+   max-width: 1200px;
+    margin: auto;
+}
+
+.library-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(288px, 1fr));
+    /*grid-template-rows: repeat(4, min-content);*/
+    grid-gap: 1rem;
+}
