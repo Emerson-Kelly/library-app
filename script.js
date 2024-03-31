@@ -31,7 +31,7 @@ document.getElementById('submitForm').addEventListener('click', function (event)
             <h5 class="card-title">${title}</h5>
             <h6 class="card-subtitle mb-3 text-muted">${author}</h6>
             <p class="card-text">${pages} pages</p>
-            <button type="button" class="btn btn-outline-secondary">${read === 'true' ? 'Read' : 'Not Read'}</button>
+            <button type="button" class="bookToggle">${read === 'true' ? 'Read' : 'Not Read'}</button>
             <button type="button" style="color: #dc3545; float: right;" class="btn btn-link remove">Remove</button>
         </div>
     </div>
@@ -39,6 +39,42 @@ document.getElementById('submitForm').addEventListener('click', function (event)
 
     // Append the card HTML to the container
     document.getElementById('submittedBooks').insertAdjacentHTML('beforeend', cardHtml);
+
+    const bookToggle = document.querySelectorAll('.bookToggle');
+    
+    // Loop through each bookToggle element
+    for (let i = 0; i < bookToggle.length; i++) {
+        if (read !== 'true') {
+            bookToggle[i].classList.remove("bookToggle");
+            bookToggle[i].classList.toggle("btn", true);
+            bookToggle[i].classList.toggle("btn-outline-secondary", true);
+        } else {
+            bookToggle[i].classList.remove("btn", "btn-outline-secondary");
+            bookToggle[i].classList.add("btn", "btn-outline-success");
+        }
+    }
+  
+ // Function to toggle the read state of a book
+function toggleReadState(button, bookIndex) {
+
+    myLibrary[bookIndex].read = myLibrary[bookIndex].read === 'true' ? 'false' : 'true';
+
+    button.textContent = myLibrary[bookIndex].read === 'true' ? 'Read' : 'Not Read';
+
+    if (myLibrary[bookIndex].read === 'true') {
+        button.classList.remove('btn-outline-secondary');
+        button.classList.add('btn-outline-success');
+    } else {
+        button.classList.remove('btn-outline-success');
+        button.classList.add('btn-outline-secondary');
+    }
+}
+
+bookToggle.forEach((button, index) => {
+    button.addEventListener('click', function () {
+        toggleReadState(button, index);
+    });
+});
 
     // Create Item Counters for Each Card Creation
     const card = document.getElementById('card-item');
