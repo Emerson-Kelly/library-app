@@ -54,27 +54,7 @@ document.getElementById('submitForm').addEventListener('click', function (event)
         }
     }
   
- // Function to toggle the read state of a book
-function toggleReadState(button, bookIndex) {
 
-    myLibrary[bookIndex].read = myLibrary[bookIndex].read === 'true' ? 'false' : 'true';
-
-    button.textContent = myLibrary[bookIndex].read === 'true' ? 'Read' : 'Not Read';
-
-    if (myLibrary[bookIndex].read === 'true') {
-        button.classList.remove('btn-outline-secondary');
-        button.classList.add('btn-outline-success');
-    } else {
-        button.classList.remove('btn-outline-success');
-        button.classList.add('btn-outline-secondary');
-    }
-}
-
-bookToggle.forEach((button, index) => {
-    button.addEventListener('click', function () {
-        toggleReadState(button, index);
-    });
-});
 
     // Create Item Counters for Each Card Creation
     const card = document.getElementById('card-item');
@@ -118,6 +98,29 @@ bookToggle.forEach((button, index) => {
             console.log(myLibrary);
         });
     });
+
+     // Function to toggle the read state of a book
+ function toggleReadState(button, bookIndex) {
+
+    myLibrary[bookIndex].read = myLibrary[bookIndex].read === 'true' ? 'false' : 'true';
+
+    button.textContent = myLibrary[bookIndex].read === 'true' ? 'Read' : 'Not Read';
+
+    if (myLibrary[bookIndex].read === 'true') {
+        button.classList.remove('btn-outline-secondary');
+        button.classList.add('btn-outline-success');
+    } else {
+        button.classList.remove('btn-outline-success');
+        button.classList.add('btn-outline-secondary');
+    }
+}
+
+bookToggle.forEach((button, bookIndex) => {
+    button.addEventListener('click', function () {
+        const read = myLibrary[bookIndex].read;
+        toggleReadState(button, bookIndex);
+    });
+});
 
 });
 
