@@ -14,7 +14,7 @@ body {
     margin-top: 2rem;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(288px, 1fr));
-    grid-gap: 1rem;
+    grid-gap: 2rem 0;
     justify-items: center;
 }
 
@@ -24,7 +24,8 @@ body {
 }
 
 .card-body {
-    padding: 1.25rem;
+    flex: 1 1 auto;
+    padding: 1rem 1rem;
 }
 
 .bookToggle {
