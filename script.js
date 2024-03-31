@@ -1,8 +1,6 @@
-
 const myLibrary = [];
 
 function Book(title, author, pages, read) {
-    // the constructor...
     this.title = title;
     this.author = author;
     this.pages = pages;
@@ -16,7 +14,7 @@ function addBookToLibrary(title, author, pages, read) {
 
 // Function to handle form submission
 document.getElementById('submitForm').addEventListener('click', function (event) {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault();
 
     // Get form input values
     const title = document.getElementById('inlineFormInputBookTitle').value;
@@ -27,32 +25,63 @@ document.getElementById('submitForm').addEventListener('click', function (event)
     // Push form inputs into function
     addBookToLibrary(title, author, pages, read);
 
-    // Create card HTML for the submitted book
     const cardHtml = `
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">${title}</h5>
-                <h6 class="card-subtitle mb-3 text-muted">${author}</h6>
-                <p class="card-text">${pages} pages</p>
-                <button type="button" class="btn btn-outline-secondary">${read === 'true' ? 'Read' : 'Not Read'}</button>
-                <button type="button" style="color: #dc3545; float: right;" class="btn btn-link">Remove</button>
-            </div>
+    <div class="card" id="card-item" style="width: 18rem;" data-item-counter="${myLibrary.length - 1}">
+        <div class="card-body">
+            <h5 class="card-title">${title}</h5>
+            <h6 class="card-subtitle mb-3 text-muted">${author}</h6>
+            <p class="card-text">${pages} pages</p>
+            <button type="button" class="btn btn-outline-secondary">${read === 'true' ? 'Read' : 'Not Read'}</button>
+            <button type="button" style="color: #dc3545; float: right;" class="btn btn-link remove">Remove</button>
         </div>
-        `;
+    </div>
+    `;
 
     // Append the card HTML to the container
     document.getElementById('submittedBooks').insertAdjacentHTML('beforeend', cardHtml);
 
+    // Create Item Counters for Each Card Creation
+    const card = document.getElementById('card-item');
+    let itemCounter = parseInt(card.getAttribute('data-item-counter'));
+    itemCounter++;
+    card.setAttribute('data-item-counter', itemCounter.toString());
+
     // Close the modal
     var myModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('newBookModal'));
     myModal.hide();
-
     console.log(myLibrary);
 
     // Reset form fields
     document.getElementById('book-form').reset();
+
+    // Get all cards
+    const cards = document.querySelectorAll('.card');
+
+    // Update data-item-counter attribute for each card
+    cards.forEach((card, index) => {
+        card.setAttribute('data-item-counter', index);
+    });
+
+    // Get all remove buttons
+    const removeButtons = document.querySelectorAll('.remove');
+
+    // Add event listener to remove buttons
+    removeButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            // Find the parent card of the clicked remove button
+            const card = button.closest('.card');
+
+            // Get the data-item-counter attribute value of the card
+            const counter = parseInt(card.getAttribute('data-item-counter'));
+
+            // Remove the card
+            card.remove();
+
+            // Remove the corresponding book from myLibrary
+            myLibrary.splice(counter, 1);
+            console.log(myLibrary);
+        });
+    });
+
 });
-
-
-
 
