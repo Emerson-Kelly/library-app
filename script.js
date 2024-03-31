@@ -27,12 +27,14 @@ document.getElementById('submitForm').addEventListener('click', function (event)
 
     const cardHtml = `
     <div class="card" id="card-item" style="width: 18rem;" data-item-counter="${myLibrary.length - 1}">
-        <div class="card-body">
+    <div class="card-body">
             <h5 class="card-title">${title}</h5>
             <h6 class="card-subtitle mb-3 text-muted">${author}</h6>
             <p class="card-text">${pages} pages</p>
+            <div class="cta-row">
             <button type="button" class="bookToggle">${read === 'true' ? 'Read' : 'Not Read'}</button>
             <button type="button" style="color: #dc3545; float: right;" class="btn btn-link remove">Remove</button>
+        </div>
         </div>
     </div>
     `;

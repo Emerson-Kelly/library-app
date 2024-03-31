@@ -26,8 +26,12 @@ body {
 .card-body {
     flex: 1 1 auto;
     padding: 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
+
 .bookToggle {
-    margin-top: 1rem;
+    
 }
