@@ -55,7 +55,45 @@ document.getElementById('submitForm').addEventListener('click', function (event)
         card.setAttribute('data-item-counter', index);
     });
 
- 
+    function toggleReadState(button, itemCounter) {
+        // Toggle the read state of the book
+        myLibrary[itemCounter].read = !myLibrary[itemCounter].read;
+
+        button.textContent = myLibrary[itemCounter].read ? 'Read' : 'Not Read';
+    
+        if (myLibrary[itemCounter].read) {
+            button.classList.remove("bookToggle");
+            button.classList.remove("btn", "btn-outline-secondary");
+            button.classList.add("btn", "btn-outline-success");
+        } else {
+            button.classList.remove("bookToggle");
+            button.classList.remove("btn", "btn-outline-success");
+            button.classList.add("btn", "btn-outline-secondary");
+        }
+    }
+
+    // Get all bookToggle buttons
+    const bookToggle = document.querySelectorAll('.bookToggle');
+    
+    bookToggle.forEach((button, itemCounter) => {
+        if (read === 'true') {
+            button.classList.remove("bookToggle");
+            button.classList.remove("btn", "btn-outline-secondary");
+            button.classList.add("btn", "btn-outline-success");
+        } else {
+            button.classList.remove("bookToggle");
+            button.classList.toggle("btn", true);
+            button.classList.toggle("btn-outline-secondary", true);
+        }
+
+        (function(btn, idx) {
+            btn.addEventListener('click', function () {
+              
+                toggleReadState(btn, idx);
+            });
+        })(button, itemCounter);
+    });
+
     const removeButtons = document.querySelectorAll('.remove');
 
     // Add event listener to remove buttons
@@ -71,43 +109,6 @@ document.getElementById('submitForm').addEventListener('click', function (event)
             myLibrary.splice(counter, 1);
             console.log(myLibrary);
         });
-    });
-
-    function toggleReadState(button, itemCounter) {
-        // Toggle the read state of the book
-        myLibrary[itemCounter].read = !myLibrary[itemCounter].read;
-
-        button.textContent = myLibrary[itemCounter].read ? 'Read' : 'Not Read';
-    
-        if (myLibrary[itemCounter].read) {
-            button.classList.remove("btn", "btn-outline-secondary");
-            button.classList.add("btn", "btn-outline-success");
-        } else {
-            button.classList.remove("btn", "btn-outline-success");
-            button.classList.add("btn", "btn-outline-secondary");
-        }
-    }
-
-    // Get all bookToggle buttons
-    const bookToggle = document.querySelectorAll('.bookToggle');
-    
-    // Loop through each bookToggle element
-    bookToggle.forEach((button, itemCounter) => {
-        if (read !== 'true') {
-            button.classList.remove("bookToggle");
-            button.classList.toggle("btn", true);
-            button.classList.toggle("btn-outline-secondary", true);
-        } else {
-            button.classList.remove("bookToggle");
-            button.classList.remove("btn", "btn-outline-secondary");
-            button.classList.add("btn", "btn-outline-success");
-        }
-
-        (function(btn, idx) {
-            btn.addEventListener('click', function () {
-                toggleReadState(btn, idx);
-            });
-        })(button, itemCounter);
     });
 
 });
