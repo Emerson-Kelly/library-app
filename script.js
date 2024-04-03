@@ -52,6 +52,7 @@ document.getElementById('submitForm').addEventListener('click', function (event)
 
     // Update data-item-counter attribute for each card
     cards.forEach((card, index) => {
+        
         card.setAttribute('data-item-counter', index);
     });
 
@@ -103,12 +104,13 @@ document.getElementById('submitForm').addEventListener('click', function (event)
             const card = button.closest('.card');
 
             const counter = parseInt(card.getAttribute('data-item-counter'));
-
+            myLibrary.splice(counter, 1);
             card.remove();
 
-            myLibrary.splice(counter, 1);
+            
             console.log(myLibrary);
         });
+       
     });
 
 });
