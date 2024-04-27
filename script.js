@@ -1,16 +1,43 @@
-const myLibrary = [];
+//const myLibrary = [];
 
-function Book(title, author, pages, read) {
+class Book {
+    constructor(title, author, pages, read) {
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.read = read;
+    }
 }
 
+class Library {
+
+constructor() {
+    this.books = [];
+    }
+
+    addBook(title, author, pages, read) {
+        const newBook = new Book(title, author, pages, read);
+        this.books.push(newBook);
+    }
+    
+    removeBook() {
+        this.books.splice(counter, 1);
+        
+    }
+
+    toggleReadState(index) {
+        this.books[index].read = !this.books[index].read;
+    }
+
+}
+
+/*
 function addBookToLibrary(title, author, pages, read) {
-    const newBook = new Book(title, author, pages, read);
+    const newBook
     myLibrary.push(newBook);
 }
+*/
+const myLibrary = new Library ();
 
 document.getElementById('submitForm').addEventListener('click', function (event) {
     event.preventDefault();
@@ -22,7 +49,8 @@ document.getElementById('submitForm').addEventListener('click', function (event)
     const read = document.getElementById('inlineFormSelectPref').value;
 
     // Push form inputs into function
-    addBookToLibrary(title, author, pages, read);
+
+    myLibrary.addBook(title, author, pages, read);
 
     const cardHtml = `
         <div class="card" style="width: 18rem;" data-item-counter="${myLibrary.length - 1}">
@@ -44,7 +72,7 @@ document.getElementById('submitForm').addEventListener('click', function (event)
     // Close the modal
     var myModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('newBookModal'));
     myModal.hide();
-    console.log(myLibrary);
+    console.log(myLibrary.books);
 
     document.getElementById('book-form').reset();
 
@@ -56,13 +84,14 @@ document.getElementById('submitForm').addEventListener('click', function (event)
         card.setAttribute('data-item-counter', index);
     });
 
+    
+
     function toggleReadState(button, itemCounter) {
         // Toggle the read state of the book
-        myLibrary[itemCounter].read = !myLibrary[itemCounter].read;
-
-        button.textContent = myLibrary[itemCounter].read ? 'Read' : 'Not Read';
+   
+        button.textContent = myLibrary.books[itemCounter].read ? 'Read' : 'Not Read';
     
-        if (myLibrary[itemCounter].read) {
+        if (myLibrary.books[itemCounter].read) {
             button.classList.remove("bookToggle");
             button.classList.remove("btn", "btn-outline-secondary");
             button.classList.add("btn", "btn-outline-success");
@@ -73,28 +102,6 @@ document.getElementById('submitForm').addEventListener('click', function (event)
         }
     }
 
-    // Get all bookToggle buttons
-    const bookToggle = document.querySelectorAll('.bookToggle');
-    
-    bookToggle.forEach((button, itemCounter) => {
-        if (read === 'true') {
-            button.classList.remove("bookToggle");
-            button.classList.remove("btn", "btn-outline-secondary");
-            button.classList.add("btn", "btn-outline-success");
-        } else {
-            button.classList.remove("bookToggle");
-            button.classList.toggle("btn", true);
-            button.classList.toggle("btn-outline-secondary", true);
-        }
-
-        (function(btn, idx) {
-            btn.addEventListener('click', function () {
-              
-                toggleReadState(btn, idx);
-            });
-        })(button, itemCounter);
-    });
-
     const removeButtons = document.querySelectorAll('.remove');
 
     // Add event listener to remove buttons
@@ -104,13 +111,38 @@ document.getElementById('submitForm').addEventListener('click', function (event)
             const card = button.closest('.card');
 
             const counter = parseInt(card.getAttribute('data-item-counter'));
-            myLibrary.splice(counter, 1);
-            card.remove();
-
+           // myLibrary.splice(counter, 1);
             
-            console.log(myLibrary);
+          card.remove();
+
+            console.log(myLibrary.books);
         });
        
     });
+
+    // Get all bookToggle buttons
+    const bookToggle = document.querySelectorAll('.bookToggle');
+    
+    bookToggle.forEach((button, itemCounter) => {
+        // Initialize button state
+        if (read === 'true') {
+            button.classList.remove("bookToggle");
+            button.classList.remove("btn", "btn-outline-secondary");
+            button.classList.add("btn", "btn-outline-success");
+        } else {
+            button.classList.remove("bookToggle");
+            button.classList.toggle("btn", true);
+            button.classList.toggle("btn-outline-secondary", true);
+        }
+    
+        // Add event listener to toggle read state with one click
+        button.addEventListener('click', function () {
+            myLibrary.toggleReadState(itemCounter);
+            toggleReadState(button, itemCounter);
+        });
+    });
+    
+
+   
 
 });
